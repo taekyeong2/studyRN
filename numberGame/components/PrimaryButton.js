@@ -1,12 +1,8 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
 //커스텀 버튼
-function PrimaryButton({ children }) {
-  //onPress(누를때 이벤트) 함수
-  function pressHandler() {
-    console.log("눌렀다");
-  }
-
+function PrimaryButton({ children, otherOnPress }) {
+  // = props.children, props.otherOnPress
   return (
     <View style={styles.buttonOuterContainer}>
       {/* pressable 의 style은 화살표 함수를 쓸 수 있다. 
@@ -17,7 +13,7 @@ function PrimaryButton({ children }) {
             ? [styles.buttonInnerContainer, styles.pressed]
             : styles.buttonInnerContainer
         }
-        onPress={pressHandler}
+        onPress={otherOnPress} //누를때 마다 confirmInputHandler/resetInputHandler함수 실행
         android_ripple={{ color: "#640233" }}
       >
         <Text style={styles.buttonText}>{children}</Text>
