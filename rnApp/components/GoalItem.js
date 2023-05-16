@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 
+//개별목표 (입력된 목표)
 function GoalItem(props) {
   return (
     <View style={styles.goalItem}>
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#5e0acc",
   },
   pressedItem: {
+    //ios에서의 클릭시 스타일
     opacity: 0.5,
   },
   goalText: {
