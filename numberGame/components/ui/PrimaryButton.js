@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import Colors from "../../constants/colors";
 
 //커스텀 버튼
 function PrimaryButton({ children, otherOnPress }) {
@@ -14,7 +15,7 @@ function PrimaryButton({ children, otherOnPress }) {
             : styles.buttonInnerContainer
         }
         onPress={otherOnPress} //누를때 마다 confirmInputHandler/resetInputHandler함수 실행
-        android_ripple={{ color: "#640233" }}
+        android_ripple={{ color: Colors.primary600 }}
       >
         <Text style={styles.buttonText}>{children}</Text>
       </Pressable>
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     overflow: "hidden", //컨테이너 밖으로 나가지 못하게
   },
   buttonInnerContainer: {
-    backgroundColor: "#72063c",
+    backgroundColor: Colors.primary500,
     paddingVertical: 8,
     paddingHorizontal: 16,
     elevation: 2,
