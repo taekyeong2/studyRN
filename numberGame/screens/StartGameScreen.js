@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { TextInput, View, StyleSheet, Alert, Text } from "react-native";
+import {
+  TextInput,
+  View,
+  StyleSheet,
+  Alert,
+  useWindowDimensions,
+} from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Colors from "../constants/colors";
 import Title from "../components/ui/Title";
@@ -10,6 +16,9 @@ import InstructionText from "../components/ui/InstructionText";
 function StartGameScreen({ onPickNumber }) {
   //입력된 값 상태
   const [enteredNumber, setEnteredNumber] = useState("");
+
+  //화면 전환에 따른 반응형 크기 => 기기 화면에 변화가 있을때 마다 실행
+  const { width, height } = useWindowDimensions();
 
   //숫자입력 함수(입력시 rn이 자동으로 매개변수 가져온다 -> enteredText)
   function numberInputHandler(enteredText) {
@@ -37,8 +46,11 @@ function StartGameScreen({ onPickNumber }) {
     onPickNumber(chosenNumber);
   }
 
+  //동적스타일
+  const marginTopDistance = height < 380 ? 30 : 100;
+
   return (
-    <View style={styles.rootContainer}>
+    <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
       <Title>Guess My Number</Title>
       <Card>
         <InstructionText>숫자를 입력하세요.</InstructionText>
@@ -71,10 +83,12 @@ function StartGameScreen({ onPickNumber }) {
 
 export default StartGameScreen;
 
+//const deviceHeight = Dimensions.get("window").height;
+
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    marginTop: 100,
+    //marginTop: deviceHeight < 380 ? 30 : 100,
     alignItems: "center",
   },
   instructionText: {
