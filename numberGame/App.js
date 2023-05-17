@@ -54,8 +54,9 @@ export default function App() {
   }
 
   //게임오버 함수
-  function gameOverHandler() {
+  function gameOverHandler(numberOfRounds) {
     setGameIsOver(true);
+    setGuessRounds(numberOfRounds);
   }
 
   //새로운 게임 시작 함수
