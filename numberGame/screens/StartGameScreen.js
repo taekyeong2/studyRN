@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Alert,
   useWindowDimensions,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Colors from "../constants/colors";
@@ -17,7 +19,7 @@ function StartGameScreen({ onPickNumber }) {
   //입력된 값 상태
   const [enteredNumber, setEnteredNumber] = useState("");
 
-  //화면 전환에 따른 반응형 크기 => 기기 화면에 변화가 있을때 마다 실행
+  //동적 Dimensions => 기기 화면에 변화가 있을때 마다 실행
   const { width, height } = useWindowDimensions();
 
   //숫자입력 함수(입력시 rn이 자동으로 매개변수 가져온다 -> enteredText)
@@ -50,34 +52,39 @@ function StartGameScreen({ onPickNumber }) {
   const marginTopDistance = height < 380 ? 30 : 100;
 
   return (
-    <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
-      <Title>Guess My Number</Title>
-      <Card>
-        <InstructionText>숫자를 입력하세요.</InstructionText>
-        <TextInput
-          style={styles.numberInput}
-          maxLength={2}
-          keyboardType="number-pad" //textInput이니 숫자라도 문자열
-          autoCapitalize="none" //앞글자 자동 대문자
-          autoCorrect={false} //글 자동 수정
-          onChangeText={numberInputHandler}
-          value={enteredNumber}
-        />
-        <View style={styles.buttonsContainer}>
-          {/* 커스텀 버튼 컴포넌트 */}
-          <View style={styles.buttonContainer}>
-            <PrimaryButton otherOnPress={resetInputHandler}>
-              Reset
-            </PrimaryButton>
-          </View>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton otherOnPress={confirmInputHandler}>
-              Confirm
-            </PrimaryButton>
-          </View>
+    //keyboardAvoidingView의 position이 잘 작동하려면 scroll이 필요 (ios에 적용)
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior="position">
+        <View style={[styles.rootContainer, { marginTop: marginTopDistance }]}>
+          <Title>Guess My Number</Title>
+          <Card>
+            <InstructionText>숫자를 입력하세요.</InstructionText>
+            <TextInput
+              style={styles.numberInput}
+              maxLength={2}
+              keyboardType="number-pad" //textInput이니 숫자라도 문자열
+              autoCapitalize="none" //앞글자 자동 대문자
+              autoCorrect={false} //글 자동 수정
+              onChangeText={numberInputHandler}
+              value={enteredNumber}
+            />
+            <View style={styles.buttonsContainer}>
+              {/* 커스텀 버튼 컴포넌트 */}
+              <View style={styles.buttonContainer}>
+                <PrimaryButton otherOnPress={resetInputHandler}>
+                  Reset
+                </PrimaryButton>
+              </View>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton otherOnPress={confirmInputHandler}>
+                  Confirm
+                </PrimaryButton>
+              </View>
+            </View>
+          </Card>
         </View>
-      </Card>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
@@ -86,6 +93,9 @@ export default StartGameScreen;
 //const deviceHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   rootContainer: {
     flex: 1,
     //marginTop: deviceHeight < 380 ? 30 : 100,
