@@ -1,11 +1,13 @@
-import { View, StyleSheet, FlatList, Text } from "react-native";
-import { MEALS } from "../data/dummy-data";
-import { useRoute } from "@react-navigation/native";
-import MealItem from "../componenets/MealItem";
+//애니메이션이 실행되는 동안 부수 효과를 설정, 실행할때 사용
+//(컴포넌트가 렌더링 되기 전에 부수효과 실행)
+import { useLayoutEffect } from "react";
+import { MEALS, CATEGORIES } from "../data/dummy-data";
+
+import MealList from "../componenets/MealList/MealList";
 
 //메뉴 클릭시 식단 정보 화면(두번째 화면)
 //route 프로퍼티는 Stack.Screen으로 설정된 컴포넌트에서만 얻을 수 있다.
-function MealsOverviewScreen({ route }) {
+function MealsOverviewScreen({ route, navigation }) {
   //route프로퍼티와 같은 역할 => Screen으로 등록되지 않은 중첩 컴포넌트에서 사용 가능
   //const route  = useRoute();
   //route.params
@@ -16,36 +18,22 @@ function MealsOverviewScreen({ route }) {
     return mealItem.categoryIds.indexOf(catId) >= 0;
   });
 
-  //FlatList renderItem 안의 함수
-  function renderMealItem(itemData) {
-    const item = itemData.item;
-    //식단 내용
-    const mealItemProps = {
-      title: item.title,
-      imageUrl: item.imageUrl,
-      duration: item.duration,
-      complexity: item.complexity,
-      affordability: item.affordability,
-    };
-    return <MealItem {...mealItemProps} />;
-  }
+  //navigation의 setOptions를 사용하기 위해 useEffect사용
+  //임포트 되지않고 함수 내부에서 사용하는 요소 => catId, navigation
+  /*컴포넌트가 실행된 후 useEffect가 제목을 만들기 때문에 제목 뒤늦게 나타남 
+    ==> 대신 useLayoutEffect를 사용하여 컴포넌트 함수 실행과 동시에 실행 */
+  useLayoutEffect(() => {
+    //catId에 맞는 카테고리 제목 가져오기
+    const categoryTitle = CATEGORIES.find(
+      (category) => category.id === catId
+    ).title;
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={displayedMeals}
-        keyExtractor={(item) => item.id}
-        renderItem={renderMealItem}
-      />
-    </View>
-  );
+    navigation.setOptions({
+      title: categoryTitle,
+    });
+  }, [catId, navigation]);
+
+  return <MealList items={displayedMeals} />;
 }
 
 export default MealsOverviewScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-});
