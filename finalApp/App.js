@@ -17,15 +17,22 @@ const BottomTabs = createBottomTabNavigator();
 function ExpensesOverview() {
   return (
     <BottomTabs.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: "white",
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
         headerRight: ({ tintColor }) => (
-          <IconButton icon="add" size={24} color={tintColor} />
+          <IconButton
+            icon="add"
+            size={24}
+            color={tintColor}
+            onPress={() => {
+              navigation.navigate("ManageExpense");
+            }}
+          />
         ),
-      }}
+      })}
     >
       <BottomTabs.Screen
         name="RecenetExpense"
@@ -34,12 +41,7 @@ function ExpensesOverview() {
           title: "Recent Expenses",
           tabBarLabel: "Recenct",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="hourglass"
-              color={color}
-              size={size}
-              onPress={() => {}}
-            />
+            <Ionicons name="hourglass" color={color} size={size} />
           ),
         }}
       />
@@ -66,6 +68,8 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{
             animation: "slide_from_right",
+            headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+            headerTintColor: "white",
           }}
         >
           <Stack.Screen
@@ -73,7 +77,13 @@ export default function App() {
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          <Stack.Screen
+            name="ManageExpense"
+            component={ManageExpense}
+            options={{
+              presentation: "modal",
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

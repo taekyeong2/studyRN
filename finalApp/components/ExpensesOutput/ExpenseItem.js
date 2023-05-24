@@ -4,12 +4,14 @@ import { getFormattedDate } from "../../util/date";
 import { useNavigation } from "@react-navigation/native";
 
 //지출 리스트안의 목록들
-function ExpenseItem({ description, amount, date }) {
+function ExpenseItem({ id, description, amount, date }) {
   const navigation = useNavigation();
 
   //눌렀을때 실행 함수 => ManageExpense화면 이동
   function expensePressHaneler() {
-    navigation.navigate("ManageExpense");
+    navigation.navigate("ManageExpense", {
+      expenseId: id,
+    });
   }
 
   return (
