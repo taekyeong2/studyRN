@@ -10,9 +10,21 @@ import { Button } from "react-native";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import UserScreen from "./screens/UserScreen";
 import CustomSidebarMenu from "./CustomSidebarMenu";
+import FirstPage from "./screens/FirstScreen";
+import SecondPage from "./screens/SecondScreen";
+import ThirdPage from "./screens/ThirdPage";
+
+import {
+  AddButtonScreen,
+  JournalScreen,
+  MeasuresScreen,
+  ProfileScreen,
+  TreatmentScreen,
+} from "./screens/BottonTab/Index";
+import AddButton from "./components/AddButton";
 
 const Drawer = createDrawerNavigator();
-//const BottomTab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
 export default function App() {
   return (
@@ -46,7 +58,7 @@ export default function App() {
         />
       </BottomTab.Navigator> */}
       {/* 드로어 네비게이터 */}
-      <Drawer.Navigator
+      {/* <Drawer.Navigator
         drawerContent={(props) => <CustomSidebarMenu {...props} />}
         screenOptions={{
           drawerActiveBackgroundColor: "#f4e6ff",
@@ -80,7 +92,56 @@ export default function App() {
             ),
           }}
         />
-      </Drawer.Navigator>
+      </Drawer.Navigator> */}
+      <BottomTab.Navigator
+        screenOptions={{
+          tabBarShowLabel: false,
+        }}
+      >
+        <BottomTab.Screen
+          name="JournalScreen"
+          component={JournalScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="book" color="#CDCCCE" size={24} />
+            ),
+          }}
+        />
+        <BottomTab.Screen
+          name="MeasuresScreen"
+          component={MeasuresScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="heart" color="#CDCCCE" size={24} />
+            ),
+          }}
+        />
+        <BottomTab.Screen
+          name="Add"
+          component={AddButtonScreen}
+          options={{
+            tabBarIcon: () => <AddButton />,
+          }}
+        />
+        <BottomTab.Screen
+          name="TreatmentScreen"
+          component={TreatmentScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" color="#CDCCCE" size={24} />
+            ),
+          }}
+        />
+        <BottomTab.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="person" color="#CDCCCE" size={24} />
+            ),
+          }}
+        />
+      </BottomTab.Navigator>
     </NavigationContainer>
   );
 }
