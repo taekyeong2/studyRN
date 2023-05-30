@@ -45,7 +45,7 @@ function AddButton() {
 
   const thermometerX = mode.interpolate({
     inputRange: [0, 1],
-    outputRange: [-24, -100],
+    outputRange: [-24, -70],
   });
   const thermometerY = mode.interpolate({
     inputRange: [0, 1],
@@ -54,7 +54,7 @@ function AddButton() {
 
   const timeX = mode.interpolate({
     inputRange: [0, 1],
-    outputRange: [-24, 50],
+    outputRange: [-24, 20],
   });
   const timeY = mode.interpolate({
     inputRange: [0, 1],
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 48,
     height: 48,
-    borderRadius: 24,
+    borderRadius: 4,
     backgroundColor: "#7F58FF",
   },
 });
