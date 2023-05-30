@@ -74,7 +74,6 @@ export default function App() {
           name="User"
           component={UserScreen}
           options={{
-            drawerLabel: "User",
             groupName: "Section2",
             drawerIcon: ({ color, size }) => (
               <Ionicons name="person" color={color} size={size} />

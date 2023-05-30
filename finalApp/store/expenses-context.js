@@ -1,72 +1,10 @@
-//지출상태관리 콘텍스트
+//지출상태관리 콘텍스트(http요청시 스택에서 바로 적용되어 보여주기 위해 사용)
 import { createContext, useReducer } from "react";
-//지출더미
-const DUMMY_EXPENSES = [
-  {
-    id: "e1",
-    description: "신발 한 켤레",
-    amount: 89000,
-    date: new Date("2023-05-19"),
-  },
-  {
-    id: "e2",
-    description: "바지 한 개",
-    amount: 56000,
-    date: new Date("2023-04-29"),
-  },
-  {
-    id: "e3",
-    description: "바나나 하나",
-    amount: 5000,
-    date: new Date("2023-05-03"),
-  },
-  {
-    id: "e4",
-    description: "책 세 권",
-    amount: 60000,
-    date: new Date("2023-03-09"),
-  },
-  {
-    id: "e5",
-    description: "책 한권",
-    amount: 13000,
-    date: new Date("2023-03-10"),
-  },
-  {
-    id: "e6",
-    description: "신발 한 켤레",
-    amount: 89000,
-    date: new Date("2023-05-19"),
-  },
-  {
-    id: "e7",
-    description: "바지 한 개",
-    amount: 56000,
-    date: new Date("2023-05-29"),
-  },
-  {
-    id: "e8",
-    description: "바나나 하나",
-    amount: 5000,
-    date: new Date("2023-05-27"),
-  },
-  {
-    id: "e9",
-    description: "책 세 권",
-    amount: 60000,
-    date: new Date("2023-03-09"),
-  },
-  {
-    id: "e10",
-    description: "책 한권",
-    amount: 13000,
-    date: new Date("2023-03-10"),
-  },
-];
 
 export const ExpensesContext = createContext({
   expenses: [],
   addExpense: ({ description, amount, date }) => {},
+  setExpenses: (expenses) => {},
   deleteExpense: (id) => {},
   updateExpense: (id, { description, amount, date }) => {},
 });
@@ -75,8 +13,10 @@ export const ExpensesContext = createContext({
 function expensesReducer(state, action) {
   switch (action.type) {
     case "ADD": //기존배열에 새 배열 추가
-      const id = new Date().toString() + Math.random().toString();
-      return [{ ...action.payload, id: id }, ...state];
+      return [action.payload, ...state];
+    case "SET": //http 리스트 요청
+      const inverted = action.payload.reverse(); //지출 추가한 순서대로 출력
+      return inverted;
     case "UPDATE":
       //업데이트 해야할 인덱스(????이부분 어려움)
       const updatableExpenseIndex = state.findIndex(
@@ -97,10 +37,14 @@ function expensesReducer(state, action) {
 
 function ExpensesContextProvider({ children }) {
   //상태관리
-  const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
+  const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
   function addExpense(expenseData) {
     dispatch({ type: "ADD", payload: expenseData });
+  }
+
+  function setExpenses(expenses) {
+    dispatch({ type: "SET", payload: expenses });
   }
 
   function deleteExpense(id) {
@@ -113,6 +57,7 @@ function ExpensesContextProvider({ children }) {
 
   const value = {
     expenses: expensesState,
+    setExpenses: setExpenses,
     addExpense: addExpense,
     deleteExpense: deleteExpense,
     updateExpense: updateExpense,

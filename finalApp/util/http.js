@@ -3,9 +3,14 @@ import axios from "axios";
 const BACKEND_URL =
   "https://react-native-course-d54dc-default-rtdb.firebaseio.com";
 //데이터 입력
-export function storeExpense(expenseData) {
+export async function storeExpense(expenseData) {
   //firebase에만 .json붙인다
-  axios.post(BACKEND_URL + "/expenses.json", expenseData);
+  const response = await axios.post(
+    BACKEND_URL + "/expenses.json",
+    expenseData
+  );
+  const id = response.data.name;
+  return id;
 }
 
 //데이터 저장
@@ -26,4 +31,14 @@ export async function fetchExpenses() {
   }
 
   return expenses;
+}
+
+//수정
+export function updateExpense(id, expenseData) {
+  return axios.put(BACKEND_URL + `/expenses/${id}.json`, expenseData);
+}
+
+//삭제
+export function deleteExpense(id) {
+  return axios.delete(BACKEND_URL + `/expenses/${id}.json`);
 }
