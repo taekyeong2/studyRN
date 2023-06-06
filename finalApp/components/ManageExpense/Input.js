@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: GlobalStyles.colors.primary100,
+    color: "black",
     marginBottom: 4,
   },
   input: {
-    backgroundColor: GlobalStyles.colors.primary100,
+    backgroundColor: "white",
     color: GlobalStyles.colors.primary700,
     padding: 6,
     borderRadius: 6,

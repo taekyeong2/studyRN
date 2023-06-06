@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 import { useContext, useEffect, useState } from "react";
 import { ExpensesContext } from "../store/expenses-context";
@@ -6,6 +6,9 @@ import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import Button from "../components/UI/Button";
+import MyModal from "./modal/MyModal";
+import { GlobalStyles } from "../constants/styles";
 
 //최근 비용 리스트 화면
 function RecentExpenses() {
@@ -13,6 +16,8 @@ function RecentExpenses() {
   const [isFetching, setIsFetching] = useState(true);
   //에러상태
   const [error, setError] = useState();
+  ////모달 열림 상태(true, false)
+  const [openModal, setOpenModal] = useState(false);
 
   const expensesCtx = useContext(ExpensesContext);
 
@@ -54,13 +59,37 @@ function RecentExpenses() {
 
     return expense.date >= date7DaysAgo && expense.date <= today;
   });
+
+  ////모달버튼클릭시 함수
+  function openMyModal() {
+    setOpenModal(true);
+  }
+
+  function closeMyModal() {
+    setOpenModal(false);
+  }
+
   return (
-    <ExpensesOutput
-      expenses={recentExpenses}
-      expensesPeriod="Last 7 Days"
-      fallbackText="최근 지출이 없습니다."
-    />
+    <View style={styles.container}>
+      <ExpensesOutput
+        expenses={recentExpenses}
+        expensesPeriod="Last 7 Days"
+        fallbackText="최근 지출이 없습니다."
+      />
+      <MyModal open={openModal} close={closeMyModal} />
+      {/* 내자산조회검색모달창, 프로젝트, 회원검색 */}
+      <Button onPress={openMyModal}>검색</Button>
+      <Button>프로젝트</Button>
+      <Button>회원</Button>
+    </View>
   );
 }
 
 export default RecentExpenses;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: GlobalStyles.colors.primary700,
+  },
+});

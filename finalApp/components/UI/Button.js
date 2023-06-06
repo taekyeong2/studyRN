@@ -1,15 +1,21 @@
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 
-function Button({ children, onPress, mode, style }) {
+function Button({ children, onPress, mode, style, btnStyle, textStyle }) {
   return (
     <View style={style}>
       <Pressable
         onPress={onPress}
         style={({ pressed }) => pressed && styles.pressed}
       >
-        <View style={[styles.button, mode === "flat" && styles.flat]}>
-          <Text style={[styles.buttonText, mode === "flat" && styles.flatText]}>
+        <View style={[styles.button, mode === "flat" && styles.flat, btnStyle]}>
+          <Text
+            style={[
+              styles.buttonText,
+              mode === "flat" && styles.flatText,
+              textStyle,
+            ]}
+          >
             {children}
           </Text>
         </View>
@@ -37,8 +43,8 @@ const styles = StyleSheet.create({
     color: GlobalStyles.colors.primary200,
   },
   pressed: {
-    opacity: 0.75,
-    backgroundColor: GlobalStyles.colors.primary100,
+    opacity: 0.4,
+    backgroundColor: "black",
     borderRadius: 4,
   },
 });
