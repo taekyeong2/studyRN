@@ -9,15 +9,7 @@ import {
   Animated,
 } from "react-native";
 import { FontAwesome5, Feather } from "@expo/vector-icons";
-// import {
-//   useSharedValue,
-//   withTiming,
-//   useAnimatedStyle,
-//   Easing,
-// } from "react-native-reanimated";
-// import Animated from "react-native-reanimated";
 function AddButton() {
-  //npx expo install react-native-reanimated설치
   const buttonSize = useRef(new Animated.Value(1)).current;
   const mode = useRef(new Animated.Value(0)).current;
   function handlePress() {
