@@ -111,18 +111,17 @@ export default function Carousel() {
 const styles = StyleSheet.create({
   slide: {
     //height: windowHeight,
-    height: "90%",
+    height: "100%",
     width: windowWidth,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
     overflow: "hidden",
   },
   slideImage: {
     //width: windowWidth * 0.9,
     //height: windowHeight * 0.7,
-    height: "100%",
-    width: "100%",
+    height: "80%",
+    width: "80%",
   },
   slideTitle: { fontSize: 24 },
   slideSubtitle: { fontSize: 18 },
