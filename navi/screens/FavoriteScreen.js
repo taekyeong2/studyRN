@@ -4,6 +4,7 @@ import MealList from "../componenets/MealList/MealList";
 //import { FavoritesContext } from "../store/context/favorites-context";
 import { MEALS } from "../data/dummy-data";
 import { useSelector } from "react-redux";
+import Carousel from "../componenets/ImageSlider";
 
 //드로우 네비 화면
 function FavoriteScreen() {
@@ -19,7 +20,12 @@ function FavoriteScreen() {
   if (favoriteMeals.length === 0) {
     return (
       <View style={styles.rootContainer}>
-        <Text style={styles.text}>You have no favorite meals yet.</Text>
+        <View style={{ flex: 1 }}>
+          <Carousel />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.text}>You have no favorite meals yet.</Text>
+        </View>
       </View>
     );
   }
